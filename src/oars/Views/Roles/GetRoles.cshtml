@@ -1,0 +1,20 @@
+﻿@{
+    ViewBag.Title = "GetRoles";
+}
+
+<h2>User Roles</h2>
+@Html.ActionLink("List Roles", "Index") | @Html.ActionLink("Manage User Role", "ManageUserRoles")
+<hr />
+
+@if (ViewBag.RolesForThisUser != null)
+{
+    <div>
+        <h3>Roles for @ViewBag.RolesUser </h3>
+        <ul>
+            @foreach (var role in ViewBag.RolesForThisUser)
+            {
+                <li>@role</li>
+            }
+        </ul>
+    </div>
+}

@@ -1,0 +1,53 @@
+﻿@model IEnumerable<Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityRole>
+@{
+    ViewBag.Title = "ManageUserRoles";
+}
+
+<h2>Manage User Roles</h2>
+@Html.ActionLink("Create New Role", "Create") | @Html.ActionLink("Manage User Role", "ManageUserRoles")
+<hr />
+<p class="text-success">@TempData["SuccessMessage"]</p>
+<p class="text-warning">@TempData["FailedMessage"]</p>
+
+<h2>Role Add to User</h2>
+
+@using (Html.BeginForm("RoleAddToUser", "Roles"))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+
+    <p>
+        Username : @Html.DropDownList("UserName", ViewBag.Users as SelectList, "Select ...")
+        Role Name: @Html.DropDownList("RoleName", ViewBag.Roles as SelectList, "Select ...")
+
+    </p>
+
+    <input type="submit" value="Save" />
+}
+
+<hr />
+<h3>Get Roles for a User</h3>
+@using (Html.BeginForm("GetRoles", "Roles"))
+{
+    @Html.AntiForgeryToken()
+    <p>
+        Username : @Html.DropDownList("UserName", ViewBag.Users as SelectList, "Select ...")
+        <input type="submit" value="Get Roles for this User" />
+    </p>
+}
+
+<hr />
+<h3>Delete A User from a Role</h3>
+
+@using (Html.BeginForm("DeleteRoleForUser", "Roles"))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+
+    <p>
+        Username : @Html.DropDownList("UserName", ViewBag.Users as SelectList, "Select ...")
+        Role Name: @Html.DropDownList("RoleName", (IEnumerable<SelectListItem>)ViewBag.Roles, "Select ...")
+    </p>
+
+    <input type="submit" value="Delete this user from Role" />
+}
