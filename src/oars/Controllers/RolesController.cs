@@ -14,7 +14,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace oars.Controllers
 {
-    //[Authorize(Roles = "Administrator")]
+    [Authorize(Roles = "Administrator")]
     public class RolesController : Controller
     {
         private readonly RoleManager<IdentityRole> _roleManager;
