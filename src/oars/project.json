@@ -1,4 +1,4 @@
-﻿{
+{
   "userSecretsId": "aspnet-oars-e8e09a72-7280-423f-bf1d-18565355ae07",
 
   "dependencies": {
@@ -42,7 +42,8 @@
     "Microsoft.VisualStudio.Web.CodeGenerators.Mvc": {
       "version": "1.0.0-preview2-final",
       "type": "build"
-    }
+    },
+    "Microsoft.AspNetCore.Session": "1.0.0"
   },
 
   "tools": {

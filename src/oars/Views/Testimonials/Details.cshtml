@@ -1,0 +1,30 @@
+@model oars.Models.DB.Testimonials
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Testimonials</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.TestimonialContent)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.TestimonialContent)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.TestimonialDate)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.TestimonialDate)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.TestimonialId">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>

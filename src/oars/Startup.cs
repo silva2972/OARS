@@ -12,6 +12,7 @@ using Microsoft.Extensions.Logging;
 using oars.Data;
 using oars.Models;
 using oars.Services;
+using oars.Models.DB;
 
 namespace oars
 {
@@ -42,11 +43,14 @@ namespace oars
             // Add framework services.
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+            services.AddDbContext<OARSContext>(options =>
+                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
             services.AddIdentity<ApplicationUser, IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
-
+            services.AddAuthorization();
+            services.AddSession();
             services.AddMvc();
 
             // Add application services.
@@ -74,6 +78,7 @@ namespace oars
             app.UseStaticFiles();
 
             app.UseIdentity();
+            app.UseSession();
 
             // Add external authentication middleware below. To configure them please see http://go.microsoft.com/fwlink/?LinkID=532715
 
