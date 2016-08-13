@@ -42,6 +42,17 @@
                             }
                         }
                     </li>
+                    <li class="dropdown">
+                        <a href="#" data-toggle="dropdown" class="dropdown-toggle">Tenant<b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            <li><a asp-area="" asp-controller="Tenants" asp-action="Index">Homepage</a></li>
+                            <li><a asp-area="" asp-controller="Tenants" asp-action="RentalAgreement">Rental Agreement</a></li>
+                            <li><a asp-area="" asp-controller="Tenants" asp-action="PayRent">Pay Rent</a></li>
+                            <li><a asp-area="" asp-controller="Tenants" asp-action="AddComplaint">Enter Complaint</a></li>
+                        </ul>
+                    </li>
+
+
                 </ul>
                 @await Html.PartialAsync("_LoginPartial")
             </div>

@@ -1,0 +1,56 @@
+﻿@model oars.Models.DB.RentalInvoice
+<div class="container">
+    <h1>Apartmental Rental Rates</h1>
+    <table class="table table-sm">
+        <thead>
+            <tr>
+                <th>Type</th>
+                <th>Studio</th>
+                <th>One Bedroom</th>
+                <th>Two Bedroom</th>
+                <th>Three Bedroom</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <th scope="row">Amount</th>
+                <td>$300</td>
+                <td>$400</td>
+                <td>$500</td>
+                <td>$700</td>
+            </tr>
+        </tbody>
+    </table>
+    <hr>
+
+    <h2>Pay Rent</h2>
+    <form method="post">
+        <div align="left">
+            <label>Rental Number: <input type="text" name="rentalNumber" value= @ViewBag.rentalInfo.RentalNo readonly></label>
+        </div>
+        <div align="left">
+            <label>Credit Card Number: <input type="number" name="ccnumber" required> </label>
+        </div>
+        <div align="left">
+            <label class="radioButtons">Credit Card Type:</label>
+
+                <label><input type="radio" name="optionsRadios" value="Visa" required />Visa</label>
+                <label><input type="radio" name="optionsRadios" value="MasterCard" required />MasterCard</label>
+                <label><input type="radio" name="optionsRadios" value="Discover" required />Discover</label>
+  
+        </div>
+        <div align="left">
+            <label>Card Expiration Date: <input type="date" name="edate" required></label>
+            </div>
+            <div align="left">
+                <label>Due Amount: <input type="text" name="dueAmount" value=@ViewBag.apartmentInfo.AptRentAmt readonly></label>
+            </div>
+            <div align="left">
+                <label>Payment Amount: <input type="number" name="payment" required></label>
+            </div>
+            <button type="reset" value="clear" class="btn btn-default">Clear</button>
+            <input type="submit" name="submit" value="Submit" class="btn btn-default" />
+    </form>
+    <HR>
+</div>
+

@@ -1,0 +1,47 @@
+﻿<div class="container">
+    <h2>Rental Agreement</h2>
+    <table class="table">
+        <tbody>
+            <tr>
+                <th scope="row">Rental Number</th>
+                <td>@ViewBag.rentalInfo.RentalNo</td>
+            </tr>
+            <tr>
+                <th scope="row">Apartment Number</th>
+                <td>@ViewBag.apartmentInfo.AptNo</td>
+            </tr>
+            <tr>
+                <th scope="row">Apartment Type</th>
+                <td>@ViewBag.apartmentInfo.AptType</td>
+            </tr>
+            <tr>
+                <th scope="row">Apartment Deposit</th>
+                <td>@ViewBag.apartmentInfo.AptDepositAmt</td>
+
+            </tr>
+            <tr>
+                <th scope="row">Lease Type</th>
+                <td>@ViewBag.rentalInfo.LeaseType</td>
+
+            </tr>
+            <tr>
+                <th scope="row">Tenant SS</th>
+                <td>@ViewBag.tenantInfo.TenantSs</td>
+            </tr>
+            <tr>
+                <th scope="row">Tenant Name</th>
+                <td>@ViewBag.tenantInfo.TenantName</td>
+            </tr>
+            <tr>
+                <th scope="row">Tenant Work Phone</th>
+                <td>@ViewBag.tenantInfo.WorkPhone></td>
+
+            </tr>
+            <tr>
+                <th scope="row">Tenant DOB</th>
+                <td>@ViewBag.tenantInfo.TenantDob.ToString("mm/dd/yyyy")</td>
+            </tr>
+        </tbody>
+    </table>
+    <hr>
+</div>

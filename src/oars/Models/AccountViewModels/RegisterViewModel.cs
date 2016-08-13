@@ -23,5 +23,11 @@ namespace oars.Models.AccountViewModels
         [Display(Name = "Confirm password")]
         [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; }
+
+        [Required]
+        [StringLength(9, ErrorMessage = "Must be 9 characters long", MinimumLength = 9)]
+        [Display(Name = "SSN")]
+        public string ssn { get; set; }
+
     }
 }

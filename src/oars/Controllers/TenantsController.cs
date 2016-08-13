@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using oars.Models.DB;
+using System.Dynamic;
 
 namespace oars.Controllers
 {
@@ -21,135 +22,39 @@ namespace oars.Controllers
         // GET: Tenants
         public async Task<IActionResult> Index()
         {
-            var oARSContext = _context.Tenant.Include(t => t.RentalNoNavigation);
-            return View(await oARSContext.ToListAsync());
-        }
+            var username = User.Identity.Name;            
+            var _tenant = await _context.Tenant.FirstAsync(t => t.Username == username);
 
-        // GET: Tenants/Details/5
-        public async Task<IActionResult> Details(string id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
+            ViewBag.tenantfamilylist = await _context.TenantFamily.Where(tf => tf.TenantSs == _tenant.TenantSs).ToListAsync();
+            ViewBag.tenantautolist = await _context.TenantAuto.Where(ta => ta.TenantSs == _tenant.TenantSs).ToListAsync();
+            ViewBag.tenantInfo = _tenant;
 
-            var tenant = await _context.Tenant.SingleOrDefaultAsync(m => m.TenantSs == id);
-            if (tenant == null)
-            {
-                return NotFound();
-            }
-
-            return View(tenant);
-        }
-
-        // GET: Tenants/Create
-        public IActionResult Create()
-        {
-            ViewData["RentalNo"] = new SelectList(_context.Rental, "RentalNo", "RentalStatus");
             return View();
         }
 
-        // POST: Tenants/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("TenantSs,EmployerName,Gender,HomePhone,Marital,RentalNo,TenantDob,TenantName,Username,WorkPhone")] Tenant tenant)
+        public async Task<IActionResult> RentalAgreement()
         {
-            if (ModelState.IsValid)
-            {
-                _context.Add(tenant);
-                await _context.SaveChangesAsync();
-                return RedirectToAction("Index");
-            }
-            ViewData["RentalNo"] = new SelectList(_context.Rental, "RentalNo", "RentalStatus", tenant.RentalNo);
-            return View(tenant);
+            var username = User.Identity.Name;
+            var _tenant = await _context.Tenant.FirstAsync(t => t.Username == username);
+
+            var rentalInfo = await _context.Rental.FirstAsync(r => r.RentalNo == _tenant.RentalNo);
+            var apartmentInfo = await _context.Apartment.FirstAsync(a => a.AptNo == rentalInfo.AptNo);
+            ViewBag.tenantInfo = _tenant;
+            ViewBag.rentalInfo = rentalInfo;
+            ViewBag.apartmentInfo = apartmentInfo;
+            return View();
         }
-
-        // GET: Tenants/Edit/5
-        public async Task<IActionResult> Edit(string id)
+        public async Task<IActionResult> PayRent()
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
+            var username = User.Identity.Name;
+            var _tenant = await _context.Tenant.FirstAsync(t => t.Username == username);
 
-            var tenant = await _context.Tenant.SingleOrDefaultAsync(m => m.TenantSs == id);
-            if (tenant == null)
-            {
-                return NotFound();
-            }
-            ViewData["RentalNo"] = new SelectList(_context.Rental, "RentalNo", "RentalStatus", tenant.RentalNo);
-            return View(tenant);
-        }
-
-        // POST: Tenants/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(string id, [Bind("TenantSs,EmployerName,Gender,HomePhone,Marital,RentalNo,TenantDob,TenantName,Username,WorkPhone")] Tenant tenant)
-        {
-            if (id != tenant.TenantSs)
-            {
-                return NotFound();
-            }
-
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    _context.Update(tenant);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!TenantExists(tenant.TenantSs))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction("Index");
-            }
-            ViewData["RentalNo"] = new SelectList(_context.Rental, "RentalNo", "RentalStatus", tenant.RentalNo);
-            return View(tenant);
-        }
-
-        // GET: Tenants/Delete/5
-        public async Task<IActionResult> Delete(string id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var tenant = await _context.Tenant.SingleOrDefaultAsync(m => m.TenantSs == id);
-            if (tenant == null)
-            {
-                return NotFound();
-            }
-
-            return View(tenant);
-        }
-
-        // POST: Tenants/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(string id)
-        {
-            var tenant = await _context.Tenant.SingleOrDefaultAsync(m => m.TenantSs == id);
-            _context.Tenant.Remove(tenant);
-            await _context.SaveChangesAsync();
-            return RedirectToAction("Index");
-        }
-
-        private bool TenantExists(string id)
-        {
-            return _context.Tenant.Any(e => e.TenantSs == id);
+            var rentalInfo = await _context.Rental.FirstAsync(r => r.RentalNo == _tenant.RentalNo);
+            var apartmentInfo = await _context.Apartment.FirstAsync(a => a.AptNo == rentalInfo.AptNo);
+            ViewBag.tenantInfo = _tenant;
+            ViewBag.rentalInfo = rentalInfo;
+            ViewBag.apartmentInfo = apartmentInfo;
+            return View();
         }
     }
 }

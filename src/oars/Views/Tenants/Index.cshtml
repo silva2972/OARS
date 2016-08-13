@@ -1,77 +1,118 @@
 @model IEnumerable<oars.Models.DB.Tenant>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Homepage";
 }
-
-<h2>Index</h2>
-
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
+<div class="container">
+<h2>Homepage</h2>
+<h3>Hello, @ViewBag.tenantInfo.TenantName </h3>
 <table class="table">
     <thead>
         <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.EmployerName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Gender)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.HomePhone)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Marital)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.TenantDob)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.TenantName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Username)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.WorkPhone)
-            </th>
-            <th></th>
+            <th>Tenant SS</th>
+            <th>Tenant Name</th>
+            <th>Tenant DOB</th>
+            <th>Tenant Marital</th>
+            <th>Tenant Work Phone</th>
+            <th>Tenant Home Phone</th>
+            <th>Tenant Employer</th>
+            <th>Tenant Gender</th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
         <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.EmployerName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Gender)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.HomePhone)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Marital)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.TenantDob)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.TenantName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Username)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.WorkPhone)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.TenantSs">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.TenantSs">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.TenantSs">Delete</a>
-            </td>
+            <td>@ViewBag.tenantInfo.TenantSs</td>
+            <td>@ViewBag.tenantInfo.TenantName</td>
+            <td>@ViewBag.tenantInfo.TenantDob.ToString("mm/dd/yyyy")</td>
+            <td>@ViewBag.tenantInfo.Marital</td>
+            <td>@ViewBag.tenantInfo.WorkPhone</td>
+            <td>@ViewBag.tenantInfo.HomePhone</td>
+            <td>@ViewBag.tenantInfo.EmployerName</td>
+            <td>@ViewBag.tenantInfo.Gender</td>                 
         </tr>
-}
     </tbody>
 </table>
+<hr>
+<br>
+<h4>Tenant Auto</h4>
+<table class="table">
+    <thead>
+        <tr>
+            <th>License No</th>
+            <th>Make</th>
+            <th>Model</th>
+            <th>Year</th>
+            <th>Color</th>
+        </tr>
+    </thead>
+    <tbody>
+       
+        @foreach (var tenantauto in ViewBag.tenantautolist)
+        {
+        <tr>
+            <td>@tenantauto.LicenseNo</td>
+            <td>@tenantauto.AutoMake</td>
+            <td>@tenantauto.AutoModel</td>
+            <td>@tenantauto.AutoYear</td>
+            <td>@tenantauto.AutoColor</td>
+        </tr>
+        }
+    </tbody>
+</table>
+<hr>
+<br>
+<h4>Tenant Family</h4>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Family SS</th>
+            <th>Family Name</th>
+            <th>Spouse</th>
+            <th>Child</th>
+            <th>Divorced</th>
+            <th>Single</th>
+            <th>Family Gender</th>
+            <th>Family DOB</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var tenantfamily in ViewBag.tenantfamilylist)
+        {
+        <tr>
+            <td>@tenantfamily.FamilySs</td>
+            <td>@tenantfamily.FullName</td>
+            <td>@tenantfamily.Spouse</td>
+            <td>@tenantfamily.Child</td>
+            <td>@tenantfamily.Divorced</td>
+            <td>@tenantfamily.Single</td>
+            <td>@tenantfamily.Gender</td>
+            <td>@tenantfamily.Dob.ToString("mm/dd/yyyy")</td>
+        </tr>
+        }
+    </tbody>
+</table>
+<hr>
+<h3>Apartment Rental Rates</h3>
+<table class="table table-sm">
+    <thead>
+        <tr>
+            <th>Type</th>
+            <th>Studio</th>
+            <th>One Bedroom</th>
+            <th>Two Bedroom</th>
+            <th>Three Bedroom</th>
+
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <th scope="row">Amount</th>
+            <td>$300</td>
+            <td>$400</td>
+            <td>$500</td>
+            <td>$700</td>
+        </tr>
+    </tbody>
+</table>
+<hr>
+</div>

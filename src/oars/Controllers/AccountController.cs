@@ -11,6 +11,10 @@ using Microsoft.Extensions.Logging;
 using oars.Models;
 using oars.Models.AccountViewModels;
 using oars.Services;
+using oars.Data;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using oars.Models.DB;
+using Microsoft.EntityFrameworkCore;
 
 namespace oars.Controllers
 {
@@ -22,19 +26,29 @@ namespace oars.Controllers
         private readonly IEmailSender _emailSender;
         private readonly ISmsSender _smsSender;
         private readonly ILogger _logger;
+        private ApplicationDbContext _context;
+        private readonly RoleManager<IdentityRole> _roleManager;
+        private readonly OARSContext _ocontext;
 
         public AccountController(
             UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
             IEmailSender emailSender,
             ISmsSender smsSender,
-            ILoggerFactory loggerFactory)
+            ILoggerFactory loggerFactory,
+            ApplicationDbContext context,
+            OARSContext ocontext,
+            RoleManager<IdentityRole> roleManager)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _emailSender = emailSender;
             _smsSender = smsSender;
             _logger = loggerFactory.CreateLogger<AccountController>();
+            _context = context;
+            _ocontext = ocontext;
+            _roleManager = roleManager;
+
         }
 
         //
@@ -63,7 +77,10 @@ namespace oars.Controllers
                 if (result.Succeeded)
                 {
                     _logger.LogInformation(1, "User logged in.");
-                    return RedirectToLocal(returnUrl);
+                    if (User.IsInRole("Tenant"))
+                        return RedirectToAction(nameof(TenantsController.Index), "Tenants");
+                    else
+                        return RedirectToLocal(returnUrl);
                 }
                 if (result.RequiresTwoFactor)
                 {
@@ -105,26 +122,31 @@ namespace oars.Controllers
             ViewData["ReturnUrl"] = returnUrl;
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
-                var result = await _userManager.CreateAsync(user, model.Password);
-                if (result.Succeeded)
+                var tenantModel = await _ocontext.Tenant.FirstAsync(t => t.TenantSs == model.ssn);
+                if (tenantModel != null)
                 {
-                    // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=532713
-                    // Send an email with this link
-                    //var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
-                    //var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: HttpContext.Request.Scheme);
-                    //await _emailSender.SendEmailAsync(model.Email, "Confirm your account",
-                    //    $"Please confirm your account by clicking this link: <a href='{callbackUrl}'>link</a>");
-                    await _signInManager.SignInAsync(user, isPersistent: false);
-                    _logger.LogInformation(3, "User created a new account with password.");
-                    return RedirectToLocal(returnUrl);
+                    var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
+                    var result = await _userManager.CreateAsync(user, model.Password);
+                    await _userManager.AddToRoleAsync(user, "tenant");
+                    tenantModel.Username = model.Email;
+                    await _ocontext.SaveChangesAsync();
+                    if (result.Succeeded)
+                    {
+ 
+                        await _signInManager.SignInAsync(user, isPersistent: false);
+                        _logger.LogInformation(3, "User created a new account with password.");
+                        return RedirectToAction("Index", "Tenants");
+                    }
+                    AddErrors(result);
                 }
-                AddErrors(result);
+                else
+                    ViewBag.ErrorMessage = "Tenant matching social security does not exist";
             }
 
             // If we got this far, something failed, redisplay form
             return View(model);
         }
+
 
         //
         // POST: /Account/LogOff
