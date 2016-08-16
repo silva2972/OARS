@@ -1,0 +1,15 @@
+﻿@model oars.Models.ReceiptViewModel
+@{
+    ViewData["Title"] = "Receipt";
+}
+
+<h1>Rent Receipt</h1>
+<h3>Please print this receipt for your records</h3>
+
+<br><br>
+<p>Tenant Name:      @Model.tenant_name</p>
+<p>Rental Number:    @Model.rental_no</p>
+<p>Apartment Number: @Model.apt_no</p>
+<p>Invoice Number:   @Model.invoice_no</p>
+<p>Invoice Date:     @Model.invoide_date </p>
+<p>Amount Paid:      @Model.amt_paid</p>

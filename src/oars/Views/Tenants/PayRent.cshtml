@@ -1,5 +1,8 @@
 ﻿@model oars.Models.DB.RentalInvoice
-<div class="container">
+@{
+    ViewData["Title"] = "Create";
+}
+
     <h1>Apartmental Rental Rates</h1>
     <table class="table table-sm">
         <thead>
@@ -22,35 +25,93 @@
         </tbody>
     </table>
     <hr>
-
+    
     <h2>Pay Rent</h2>
-    <form method="post">
-        <div align="left">
-            <label>Rental Number: <input type="text" name="rentalNumber" value= @ViewBag.rentalInfo.RentalNo readonly></label>
-        </div>
-        <div align="left">
-            <label>Credit Card Number: <input type="number" name="ccnumber" required> </label>
-        </div>
-        <div align="left">
-            <label class="radioButtons">Credit Card Type:</label>
+    <form asp-action="PayRent">
+        <div class="form-horizontal">
+            <h4>RentalInvoice</h4>
+            <hr />
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="RentalNo" class="col-md-2 control-label">Rental Number</label>
+                <div class="col-md-10">
+                    <input asp-for="RentalNo" class="form-control" value=@ViewBag.RentalNo readonly />
+                </div>
+            </div>
+            <div class="form-group">
+                <label asp-for="InvoiceDate" class="col-md-2 control-label">Invoice Date</label>
+                <div class="col-md-10">
+                    <input asp-for="InvoiceDate" class="form-control" value=@ViewBag.today readonly />
+                    <span asp-validation-for="InvoiceDate" class="text-danger" />
+                </div>
+            </div>
+            <div class="form-group">
+                <label asp-for="InvoiceDue" class="col-md-2 control-label">Rent Amount Due</label>
+                <div class="col-md-10">
+                    <input asp-for="InvoiceDue" class="form-control" value=@ViewBag.RentAmt readonly />
+                    <span asp-validation-for="InvoiceDue" class="text-danger" />
+                </div>
+            </div>
+            <div class="form-group">
+                <label asp-for="CcAmt" class="col-md-2 control-label">Payment Amount</label>
+                <div class="col-md-10">
+                    <input asp-for="CcAmt" class="form-control" />
+                    <span asp-validation-for="CcAmt" class="text-danger" />
+                </div>
+            </div>
 
-                <label><input type="radio" name="optionsRadios" value="Visa" required />Visa</label>
-                <label><input type="radio" name="optionsRadios" value="MasterCard" required />MasterCard</label>
-                <label><input type="radio" name="optionsRadios" value="Discover" required />Discover</label>
-  
+            <div class="form-group">
+                <label asp-for="CcNo" class="col-md-2 control-label">Card Number</label>
+                <div class="col-md-10">
+                    <input asp-for="CcNo" class="form-control" />
+                    <span asp-validation-for="CcNo" class="text-danger" />
+                </div>
+            </div>
+            <div class="form-group">
+                <label asp-for="CcType" class="col-md-2 control-label">Card Type</label>
+                <div>
+
+                    <label asp-for="CcType" class="radio-inline">
+                        <input asp-for="CcType" value="Visa" type="radio" />Visa
+                    </label>
+                    <label asp-for="CcType" class="radio-inline">
+                        <input asp-for="CcType" value="MasterCard" type="radio" />MasterCard
+                    </label>
+                    <label asp-for="CcType" class="radio-inline">
+                        <input asp-for="CcType" value="Discover" type="radio" />Discover
+                    </label>
+                </div>
+            </div>
+            <div class="form-group">
+                <label asp-for="CcExpDate" class="col-md-2 control-label">Expiration Date</label>
+                <div class="col-md-10" id="datepicker">
+                    <input asp-for="CcExpDate" class="form-control" type="text" />
+                    <span asp-validation-for="CcExpDate" class="text-danger" />
+                </div>
+            </div>
+
+
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="PayRent" class="btn btn-default" />
+                    <input type="reset" value="clear" class="btn btn-default" />
+                </div>
+            </div>
         </div>
-        <div align="left">
-            <label>Card Expiration Date: <input type="date" name="edate" required></label>
-            </div>
-            <div align="left">
-                <label>Due Amount: <input type="text" name="dueAmount" value=@ViewBag.apartmentInfo.AptRentAmt readonly></label>
-            </div>
-            <div align="left">
-                <label>Payment Amount: <input type="number" name="payment" required></label>
-            </div>
-            <button type="reset" value="clear" class="btn btn-default">Clear</button>
-            <input type="submit" name="submit" value="Submit" class="btn btn-default" />
     </form>
-    <HR>
-</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script type="text/javascript" src="~/lib/jquery-ui/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="~/lib/bootstrap-datepicker/js/bootstrap-datepicker.js"></script>
+    <script type="text/javascript">
+        $('#datepicker input').datepicker({
+            startView: 1,
+            minViewMode: 1,
+            });
+
+    </script>
+
+}
+
 

@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using oars.Models.DB;
 using System.Dynamic;
+using oars.Models;
 
 namespace oars.Controllers
 {
@@ -51,10 +52,39 @@ namespace oars.Controllers
 
             var rentalInfo = await _context.Rental.FirstAsync(r => r.RentalNo == _tenant.RentalNo);
             var apartmentInfo = await _context.Apartment.FirstAsync(a => a.AptNo == rentalInfo.AptNo);
-            ViewBag.tenantInfo = _tenant;
-            ViewBag.rentalInfo = rentalInfo;
-            ViewBag.apartmentInfo = apartmentInfo;
+            ViewBag.RentalNo = rentalInfo.RentalNo;
+            ViewBag.RentAmt = apartmentInfo.AptRentAmt;
+            ViewBag.today = DateTime.Today.ToString("yyyy-MM-dd");
             return View();
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> PayRent([Bind("InvoiceNo,CcAmt,CcExpDate,CcNo,CcType,InvoiceDate,InvoiceDue,RentalNo")] RentalInvoice rentalInvoice)
+        {
+            if (ModelState.IsValid)
+            { 
+                _context.Add(rentalInvoice);
+                await _context.SaveChangesAsync();
+                return RedirectToAction("Receipt");
+            }
+            
+            ViewData["RentalNo"] = new SelectList(_context.Rental, "RentalNo", "RentalStatus", rentalInvoice.RentalNo);
+            return View(rentalInvoice);
+        }
+        public async Task<IActionResult> Receipt()
+        {
+            ReceiptViewModel rvm = new ReceiptViewModel();
+            var username = User.Identity.Name;
+            var _tenant = await _context.Tenant.FirstAsync(t => t.Username == username);
+            var rentalInfo = await _context.Rental.FirstAsync(r => r.RentalNo == _tenant.RentalNo);
+            var rentalInvoice = await _context.RentalInvoice.LastOrDefaultAsync(ri => ri.RentalNo == _tenant.RentalNo);
+            rvm.rental_no = rentalInvoice.RentalNo;
+            rvm.invoice_no = rentalInvoice.InvoiceNo;
+            rvm.invoide_date = rentalInvoice.InvoiceDate;
+            rvm.amt_paid = rentalInvoice.CcAmt;
+            rvm.tenant_name = _tenant.TenantName;
+            rvm.apt_no = rentalInfo.AptNo;
+            return View(rvm);
         }
     }
 }
