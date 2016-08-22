@@ -52,7 +52,11 @@ namespace oars
             services.AddAuthorization();
             services.AddSession();
             services.AddMvc();
-
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("Staff", policy =>
+                  policy.RequireRole("Manager", "Supervisor", "Customer-Service","Assistant"));
+            });
             // Add application services.
             services.AddTransient<IEmailSender, AuthMessageSender>();
             services.AddTransient<ISmsSender, AuthMessageSender>();

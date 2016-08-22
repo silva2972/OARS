@@ -51,7 +51,19 @@
                             <li><a asp-area="" asp-controller="Tenants" asp-action="AddComplaint">Enter Complaint</a></li>
                         </ul>
                     </li>
-
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        if (User.IsInRole("Customer-Service") || User.IsInRole("Assistant") || User.IsInRole("Manager") || User.IsInRole("Supervisor"))
+                        {
+                        <li class="dropdown">
+                            <a href="#" data-toggle="dropdown" class="dropdown-toggle">Staff<b class="caret"></b></a>
+                            <ul class="dropdown-menu">
+                                <li><a asp-area="" asp-controller="Staffs" asp-action="Index">Homepage</a></li>
+                            
+                            </ul>
+                        </li>
+                        }
+                    }
 
                 </ul>
                 @await Html.PartialAsync("_LoginPartial")

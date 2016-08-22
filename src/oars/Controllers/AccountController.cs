@@ -80,7 +80,7 @@ namespace oars.Controllers
                     if (User.IsInRole("Tenant"))
                         return RedirectToAction(nameof(TenantsController.Index), "Tenants");
                     else
-                        return RedirectToLocal(returnUrl);
+                        return RedirectToAction(nameof(StaffsController.Index),"Staffs");
                 }
                 if (result.RequiresTwoFactor)
                 {
@@ -121,26 +121,53 @@ namespace oars.Controllers
         {
             ViewData["ReturnUrl"] = returnUrl;
             if (ModelState.IsValid)
-            {
-                var tenantModel = await _ocontext.Tenant.FirstAsync(t => t.TenantSs == model.ssn);
-                if (tenantModel != null)
+            {            
+
+                if (String.IsNullOrEmpty(model.ssn) && model.s_no != null)
                 {
-                    var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
-                    var result = await _userManager.CreateAsync(user, model.Password);
-                    await _userManager.AddToRoleAsync(user, "tenant");
-                    tenantModel.Username = model.Email;
-                    await _ocontext.SaveChangesAsync();
-                    if (result.Succeeded)
+                    Tenant tenantModel;
+                    Staff staffModel;
+                    var user = new ApplicationUser { UserName = model.Email, Email = model.Email };                    
+                    if (model.s_no == null)
                     {
- 
-                        await _signInManager.SignInAsync(user, isPersistent: false);
-                        _logger.LogInformation(3, "User created a new account with password.");
-                        return RedirectToAction("Index", "Tenants");
+                        tenantModel = await _ocontext.Tenant.FirstAsync(t => (t.TenantSs == model.ssn) && (t.TenantDob ==model.dob));
+                        if (tenantModel != null)
+                        {
+                            var result = await _userManager.CreateAsync(user, model.Password);
+                            if (result.Succeeded)
+                            {
+                                await _userManager.AddToRoleAsync(user, "tenant");
+                                tenantModel.Username = model.Email;
+                                await _ocontext.SaveChangesAsync();
+                                await _signInManager.SignInAsync(user, isPersistent: false);
+                                _logger.LogInformation(3, "User created a new account with password.");
+                                return RedirectToAction("Index", "Tenants");
+                            }
+                            AddErrors(result);
+                        }
+                        else
+                            ViewBag.ErrorMessage = "Tenant matching social security does not exist";
                     }
-                    AddErrors(result);
+                    else
+                    {
+                        staffModel = await _ocontext.Staff.FirstOrDefaultAsync(s => (s.StaffNo == model.s_no) && (s.Dob == model.dob));
+                        if (staffModel != null)
+                        {
+                            var result = await _userManager.CreateAsync(user, model.Password);
+                            if (result.Succeeded)
+                            {
+                                staffModel.Username = model.Email;
+                                await _ocontext.SaveChangesAsync();
+                                await _signInManager.SignInAsync(user, isPersistent: false);
+                                _logger.LogInformation(3, "User created a new account with password.");
+                                return RedirectToAction("Index", "Home");
+                            }
+                            AddErrors(result);
+                        }
+                        else
+                            ViewBag.ErrorMessage = "Staff number does not match any existing staff";
+                    }
                 }
-                else
-                    ViewBag.ErrorMessage = "Tenant matching social security does not exist";
             }
 
             // If we got this far, something failed, redisplay form

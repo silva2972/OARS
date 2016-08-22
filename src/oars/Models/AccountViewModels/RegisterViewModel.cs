@@ -24,10 +24,16 @@ namespace oars.Models.AccountViewModels
         [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; }
 
-        [Required]
         [StringLength(9, ErrorMessage = "Must be 9 characters long", MinimumLength = 9)]
         [Display(Name = "SSN")]
         public string ssn { get; set; }
-
+        
+        [Display(Name = "Staff Number")]
+        public int? s_no { get; set; }
+        
+        [Required]
+        [DataType(DataType.Date)]
+        [Display(Name = "DOB")]
+        public DateTime dob { get; set; }
     }
 }
