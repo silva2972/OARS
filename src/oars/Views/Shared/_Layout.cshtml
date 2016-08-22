@@ -34,34 +34,34 @@
                     <li><a asp-area="" asp-controller="Home" asp-action="About">About</a></li>
                     <li><a asp-area="" asp-controller="Home" asp-action="Contact">Contact</a></li>
                     <li><a asp-area="" asp-controller="Testimonials" asp-action="Index">Testimonials</a></li>
-                    <li>@if (User.Identity.IsAuthenticated)
-                        {
-                            if (User.IsInRole("Administrator"))
-                            {
-                                @Html.ActionLink("Roles", "Index", "Roles")
-                            }
-                        }
-                    </li>
-                    <li class="dropdown">
-                        <a href="#" data-toggle="dropdown" class="dropdown-toggle">Tenant<b class="caret"></b></a>
-                        <ul class="dropdown-menu">
-                            <li><a asp-area="" asp-controller="Tenants" asp-action="Index">Homepage</a></li>
-                            <li><a asp-area="" asp-controller="Tenants" asp-action="RentalAgreement">Rental Agreement</a></li>
-                            <li><a asp-area="" asp-controller="Tenants" asp-action="PayRent">Pay Rent</a></li>
-                            <li><a asp-area="" asp-controller="Tenants" asp-action="AddComplaint">Enter Complaint</a></li>
-                        </ul>
-                    </li>
                     @if (User.Identity.IsAuthenticated)
                     {
+                        if (User.IsInRole("Administrator"))
+                        {
+                            <li>
+                                @Html.ActionLink("Roles", "Index", "Roles")
+                            </li>
+                        }
+                        if (User.IsInRole("Tenant"))
+                        {
+                            <li class="dropdown">
+                                <a href="#" data-toggle="dropdown" class="dropdown-toggle">Tenant<b class="caret"></b></a>
+                                <ul class="dropdown-menu">
+                                    <li><a asp-area="" asp-controller="Tenants" asp-action="Index">Homepage</a></li>
+                                    <li><a asp-area="" asp-controller="Tenants" asp-action="RentalAgreement">Rental Agreement</a></li>
+                                    <li><a asp-area="" asp-controller="Tenants" asp-action="PayRent">Pay Rent</a></li>
+                                    <li><a asp-area="" asp-controller="Tenants" asp-action="AddComplaint">Enter Complaint</a></li>
+                                </ul>
+                            </li>
+                        }
                         if (User.IsInRole("Customer-Service") || User.IsInRole("Assistant") || User.IsInRole("Manager") || User.IsInRole("Supervisor"))
                         {
-                        <li class="dropdown">
-                            <a href="#" data-toggle="dropdown" class="dropdown-toggle">Staff<b class="caret"></b></a>
-                            <ul class="dropdown-menu">
-                                <li><a asp-area="" asp-controller="Staffs" asp-action="Index">Homepage</a></li>
-                            
-                            </ul>
-                        </li>
+                            <li class="dropdown">
+                                <a href="#" data-toggle="dropdown" class="dropdown-toggle">Staff<b class="caret"></b></a>
+                                <ul class="dropdown-menu">
+                                    <li><a asp-area="" asp-controller="Staffs" asp-action="Index">Homepage</a></li>                            
+                                </ul>
+                            </li>
                         }
                     }
 
