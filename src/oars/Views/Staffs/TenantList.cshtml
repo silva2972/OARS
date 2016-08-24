@@ -1,0 +1,25 @@
+﻿@model List<oars.Models.TenantList>
+@{
+    ViewData["Title"] = "Tenant List";
+}
+
+<h2>Tenant List</h2>
+@if (Model != null)
+{
+    <table class="table">
+        <tr>
+            <th>Rental Number</th>
+            <th>Apartment Number</th>
+            <th>Tenant Name</th>
+            
+        </tr>
+        @foreach (var t in Model)
+        {
+            <tr>
+                <td>@Html.DisplayFor(m => t.rental_no)</td>
+                <td>@Html.DisplayFor(m => t.apt_no)</td>
+                <td>@Html.DisplayFor(m => t.tenantName)</td>
+            </tr>
+        }
+    </table>
+}

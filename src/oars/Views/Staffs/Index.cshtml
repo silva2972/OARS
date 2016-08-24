@@ -5,3 +5,6 @@
 <h2>Staff Homepage</h2>
 <h3>Hello, @ViewBag.staffName </h3>
 
+@Html.ActionLink("Tenant List", "TenantList", "Staffs", null, new { @class = "btn btn-primary btn-lg btn-block" })
+@Html.ActionLink("Payment List", "PaymentList", "Staffs", null, new { @class = "btn btn-primary btn-lg btn-block" })
+@Html.ActionLink("Enter Complaint", "EnterComplaint", "Complaints", null, new { @class = "btn btn-primary btn-lg btn-block" })
