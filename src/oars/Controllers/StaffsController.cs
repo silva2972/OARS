@@ -12,6 +12,7 @@ using oars.Models;
 
 namespace oars.Controllers
 {
+    [Authorize(Policy = "Staff")]
     public class StaffsController : Controller
     {
         private readonly OARSContext _context;
@@ -22,7 +23,7 @@ namespace oars.Controllers
         }
 
         // GET: Staffs
-        [Authorize(Policy = "Staff")]
+        
         public async Task<IActionResult> Index()
         {
             var username = User.Identity.Name;

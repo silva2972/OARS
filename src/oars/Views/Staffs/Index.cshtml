@@ -7,4 +7,8 @@
 
 @Html.ActionLink("Tenant List", "TenantList", "Staffs", null, new { @class = "btn btn-primary btn-lg btn-block" })
 @Html.ActionLink("Payment List", "PaymentList", "Staffs", null, new { @class = "btn btn-primary btn-lg btn-block" })
-@Html.ActionLink("Enter Complaint", "EnterComplaint", "Complaints", null, new { @class = "btn btn-primary btn-lg btn-block" })
+@Html.ActionLink("Enter Complaint", "CreateRentalComplaint", "Complaints", null, new { @class = "btn btn-primary btn-lg btn-block" })
+@if (User.IsInRole("Supervisor"))
+{
+@Html.ActionLink("Pending Complaints", "Index", "Complaints", null, new { @class = "btn btn-primary btn-lg btn-block" })
+}

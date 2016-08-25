@@ -1,0 +1,35 @@
+@model IEnumerable<oars.Models.ComplaintVM>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h2>Pending Complaints</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Complaint Number</th>
+            <th>Complaint Date</th>
+            <th>Apartment Number</th>
+            <th>Apartment Complaint</th>
+            <th>Rental Number</th>
+            <th>Rental Complaint</th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td> @Html.DisplayFor(modelItem => item.ComplaintNo) </td>
+            <td> @Html.DisplayFor(modelItem => item.ComplaintDate) </td>
+            <td> @Html.DisplayFor(modelItem => item.AptNo) </td>
+            <td> @Html.DisplayFor(modelItem => item.AptComplaint) </td>
+            <td> @Html.DisplayFor(modelItem => item.RentalNo) </td>
+            <td> @Html.DisplayFor(modelItem => item.RentalComplaint) </td>
+            <td>
+                <a asp-action="Update" asp-route-id="@item.ComplaintNo">Fix</a> |
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

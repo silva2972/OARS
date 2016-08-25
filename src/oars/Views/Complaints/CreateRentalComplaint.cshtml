@@ -1,0 +1,30 @@
+@{
+    ViewData["Title"] = "Create Rental Complaint";
+}
+
+<h2>Create Rental Complaint</h2>
+
+<form asp-action="CreateRentalComplaint">
+    <div class="form-horizontal">
+        <hr />
+        <div class="form-group">
+            <label class="col-md-2 control-label">Rental Number</label>
+            <div class="col-md-10">
+                <input name="r_no" class="form-control" type="number"/>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-md-2 control-label">Complaint</label>
+            <div class="col-md-10">
+                <input name="complaint_text" type="text" class="form-control" placeholder="Enter Complaint..."/>
+            </div>
+        </div>
+        <
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Submit" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+</form>
+

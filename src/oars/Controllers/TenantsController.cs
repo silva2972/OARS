@@ -8,9 +8,11 @@ using Microsoft.EntityFrameworkCore;
 using oars.Models.DB;
 using System.Dynamic;
 using oars.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace oars.Controllers
 {
+    [Authorize(Roles = "Tenant")]
     public class TenantsController : Controller
     {
         private readonly OARSContext _context;

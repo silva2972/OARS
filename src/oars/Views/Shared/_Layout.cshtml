@@ -50,7 +50,7 @@
                                     <li><a asp-area="" asp-controller="Tenants" asp-action="Index">Homepage</a></li>
                                     <li><a asp-area="" asp-controller="Tenants" asp-action="RentalAgreement">Rental Agreement</a></li>
                                     <li><a asp-area="" asp-controller="Tenants" asp-action="PayRent">Pay Rent</a></li>
-                                    <li><a asp-area="" asp-controller="Tenants" asp-action="AddComplaint">Enter Complaint</a></li>
+                                    <li><a asp-area="" asp-controller="Complaints" asp-action="Create">Enter Complaint</a></li>
                                 </ul>
                             </li>
                         }
@@ -61,7 +61,11 @@
                                 <ul class="dropdown-menu">
                                     <li><a asp-area="" asp-controller="Staffs" asp-action="Index">Homepage</a></li>
                                     <li><a asp-area="" asp-controller="Staffs" asp-action="TenantList">Tenant List</a></li>  
-                                    <li><a asp-area="" asp-controller="Staffs" asp-action="PaymentList">Payment List</a></li>                              
+                                    <li><a asp-area="" asp-controller="Staffs" asp-action="PaymentList">Payment List</a></li>
+                                    <li><a asp-area="" asp-controller="Complaints" asp-action="CreateRentalComplaint">Enter Complaint</a></li>
+                                    @if(User.IsInRole("Supervisor")){
+                                    <li><a asp-area="" asp-controller="Complaints" asp-action="Index">Pending Complaints</a></li> 
+                                    }                             
                                 </ul>
                             </li>
                         }
