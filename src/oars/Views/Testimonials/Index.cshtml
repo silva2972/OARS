@@ -1,41 +1,50 @@
-@model IEnumerable<oars.Models.DB.Testimonials>
+@model IEnumerable<oars.Models.TestimonialsVM>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Testimonials";
 }
 
-<h2>Index</h2>
+<h2>Testimonials</h2>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
 <table class="table">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.TestimonialContent)
-            </th>
-            <th>
                 @Html.DisplayNameFor(model => model.TestimonialDate)
             </th>
-            <th></th>
+            <th>
+                @Html.DisplayNameFor(model => model.TestimonialContent)
+            </th>            
         </tr>
     </thead>
     <tbody>
 @foreach (var item in Model) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.TestimonialContent)
-            </td>
-            <td>
                 @Html.DisplayFor(modelItem => item.TestimonialDate)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.TestimonialId">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.TestimonialId">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.TestimonialId">Delete</a>
+                @Html.DisplayFor(modelItem => item.TestimonialContent)
             </td>
         </tr>
 }
     </tbody>
 </table>
+@if (User.IsInRole("Tenant"))
+{
+    <form asp-action="Create">
+        <div class="form-horizontal">
+            <hr />
+            <div class="form-group">
+                <div class="col-md-10">
+                    <input name="testimonial_text" type="text" class="form-control" placeholder="Enter Testimonial..." />
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="Submit" class="btn btn-default" />
+                </div>
+            </div>
+        </div>
+    </form>
+}

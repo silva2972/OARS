@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using oars.Models.DB;
+using oars.Models;
 
 namespace oars.Controllers
 {
@@ -21,49 +22,27 @@ namespace oars.Controllers
         // GET: Testimonials
         public async Task<IActionResult> Index()
         {
-            var oARSContext = _context.Testimonials.Include(t => t.TenantSsNavigation);
-            return View(await oARSContext.ToListAsync());
-        }
-
-        // GET: Testimonials/Details/5
-        public async Task<IActionResult> Details(int? id)
-        {
-            if (id == null)
+            var model = await _context.Testimonials.Select(t => new TestimonialsVM
             {
-                return NotFound();
-            }
-
-            var testimonials = await _context.Testimonials.SingleOrDefaultAsync(m => m.TestimonialId == id);
-            if (testimonials == null)
-            {
-                return NotFound();
-            }
-
-            return View(testimonials);
+                TestimonialDate = t.TestimonialDate,
+                TestimonialContent = t.TestimonialContent
+            }).ToListAsync();
+            return View(model);
         }
-
-        // GET: Testimonials/Create
-        public IActionResult Create()
-        {
-            ViewData["TenantSs"] = new SelectList(_context.Tenant, "TenantSs", "TenantSs");
-            return View();
-        }
-
-        // POST: Testimonials/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
+               
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("TestimonialId,TenantSs,TestimonialContent,TestimonialDate")] Testimonials testimonials)
+        public async Task<IActionResult> Create(string testimonial_text)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(testimonials);
-                await _context.SaveChangesAsync();
-                return RedirectToAction("Index");
+                Testimonials _testimonial = new Testimonials();
+                _testimonial.TestimonialDate = DateTime.Today;
+                _testimonial.TestimonialContent = testimonial_text;
+                _testimonial.TenantSs = _context.Tenant.Single(t => t.Username == User.Identity.Name).TenantSs;
+                _context.Add(_testimonial);
+                await _context.SaveChangesAsync();                
             }
-            ViewData["TenantSs"] = new SelectList(_context.Tenant, "TenantSs", "TenantSs", testimonials.TenantSs);
-            return View(testimonials);
+            return RedirectToAction("Index");
         }
 
         // GET: Testimonials/Edit/5

@@ -76,8 +76,10 @@ namespace oars.Controllers
                 var result = await _signInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, lockoutOnFailure: false);
                 if (result.Succeeded)
                 {
+                    var user = await _ocontext.AspNetUsers.SingleAsync(u => u.Email == model.Email);
+                    var role = await _ocontext.AspNetRoles.SingleAsync(r => r.Name == "Tenant");
                     _logger.LogInformation(1, "User logged in.");
-                    if (User.IsInRole("Tenant"))
+                    if (_ocontext.AspNetUserRoles.Any(ur => (ur.RoleId==role.Id) && (ur.UserId==user.Id)))
                         return RedirectToAction(nameof(TenantsController.Index), "Tenants");
                     else
                         return RedirectToAction(nameof(StaffsController.Index),"Staffs");
