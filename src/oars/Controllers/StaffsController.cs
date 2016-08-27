@@ -86,6 +86,7 @@ namespace oars.Controllers
             }
             return View(model);
         }
+        [Authorize(Roles = "Supervisor")]
         public async Task<IActionResult> StaffApartmentDetails()
         {
             var model = await _context.Staff.Select(s => new StaffApartmentDetailsVM
@@ -101,6 +102,55 @@ namespace oars.Controllers
                 var pos = await _userManager.GetRolesAsync(await _userManager.FindByEmailAsync(model[i].username));
                 model[i].position = pos[0];
             }
+            return View(model);
+        }
+        [Authorize(Roles = "Manager")]
+        public async Task<IActionResult> AutomobileMakeCount()
+        {
+            var model = await _context.TenantAuto.GroupBy(ta => new { ta.AutoMake })
+                .Select(ta => new AutomobileMakeCountVM
+                {
+                    make = ta.Key.AutoMake,
+                    count = ta.Count()
+                }).ToListAsync();
+            return View(model);
+        }
+        [Authorize(Roles = "Manager")]
+        public async Task<IActionResult> VacantApartmentsList()
+        {
+            var model = await _context.Apartment.Where(a => a.AptStatus == "V").Select(a => new VacantApartmentsListVM
+            {
+                apt_no = a.AptNo,
+                apt_type = a.AptType,
+                deposit = a.AptDepositAmt,
+                rent = a.AptRentAmt
+            }).ToListAsync();
+            return View(model);
+        }
+        [Authorize(Roles = "Manager")]
+        public async Task<IActionResult> LeaseLengthList()
+        {
+            var model = await _context.Rental.Select(r=>new LeaseLengthListVM
+            {
+                rental_no = r.RentalNo,
+                apt_no = r.AptNo,
+                lease_type = r.LeaseType
+            }).ToListAsync();
+            return View(model);
+        }
+        [Authorize(Roles = "Manager")]
+        public async Task<IActionResult> RentCollected()
+        {
+            var model = await _context.RentalInvoice.GroupBy(ri => new 
+            {
+                month = ri.InvoiceDate.Month,
+                year = ri.InvoiceDate.Year,
+            }).Select(ri => new RentCollectedVM {
+                month = ri.Key.month,
+                year = ri.Key.year,
+                rent_collection = ri.Sum(_ri => _ri.CcAmt)
+            }
+            ).ToListAsync();
             return View(model);
         }
     }

@@ -1,0 +1,50 @@
+﻿@model IEnumerable<oars.Models.VacantApartmentsListVM>
+
+    @{
+        ViewData["Title"] = "Vacant Apartments";
+    }
+
+    <h2>Vacant Apartments</h2>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.apt_no)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.apt_type)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.deposit)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.rent)
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.apt_no)
+                    </td>
+                    @if (item.apt_type == 0)
+                    {<td>studio</td>}
+                    else if (item.apt_type == 1)
+                    {<td>one bedroom</td>}
+                    else if (item.apt_type == 2)
+                    {<td>two bedroom</td>}
+                    else
+                    {<td>three bedroom</td>}
+                    <td>
+                        @Html.DisplayFor(modelItem => item.deposit)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.rent)
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>

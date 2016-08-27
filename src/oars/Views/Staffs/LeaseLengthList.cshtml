@@ -1,0 +1,39 @@
+﻿@model IEnumerable<oars.Models.LeaseLengthListVM>
+
+    @{
+        ViewData["Title"] = "Lease Lengths";
+    }
+
+    <h2>Rental Leases Lengths</h2>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.rental_no)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.apt_no)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.lease_type)
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.rental_no)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.apt_no)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.lease_type)
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>

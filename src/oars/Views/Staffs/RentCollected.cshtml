@@ -1,0 +1,39 @@
+﻿@model IEnumerable<oars.Models.RentCollectedVM>
+
+    @{
+        ViewData["Title"] = "Rent Collected";
+    }
+
+    <h2>Rent Collected</h2>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.month)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.year)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.rent_collection)
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.month)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.year)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.rent_collection)
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>

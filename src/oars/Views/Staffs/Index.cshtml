@@ -14,3 +14,10 @@
     @Html.ActionLink("Staff Rental Summary", "StaffRentalSummary", "Staffs", null, new { @class = "btn btn-primary btn-lg btn-block" })
     @Html.ActionLink("Staff Apartment Details", "StaffApartmentDetails", "Staffs", null, new { @class = "btn btn-primary btn-lg btn-block" })
 }
+else if (User.IsInRole("Manager"))
+{
+    @Html.ActionLink("Automobile Make Count", "AutomobileMakeCount", "Staffs", null, new { @class = "btn btn-primary btn-lg btn-block" })
+    @Html.ActionLink("Vacant Apartments List", "VacantApartmentsList", "Staffs", null, new { @class = "btn btn-primary btn-lg btn-block" })
+    @Html.ActionLink("Lease Length List", "LeaseLengthList", "Staffs", null, new { @class = "btn btn-primary btn-lg btn-block" })
+    @Html.ActionLink("Rent Collected", "RentCollected", "Staffs", null, new { @class = "btn btn-primary btn-lg btn-block" })
+}

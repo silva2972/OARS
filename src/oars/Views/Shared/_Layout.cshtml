@@ -67,7 +67,14 @@
                                     <li><a asp-area="" asp-controller="Complaints" asp-action="Index">Pending Complaints</a></li>
                                     <li><a asp-area="" asp-controller="Staffs" asp-action="StaffRentalSummary">Staff Rental Summary</a></li>
                                     <li><a asp-area="" asp-controller="Staffs" asp-action="StaffApartmentDetails">Staff Apartment Details</a></li>
-                                    }                             
+                                    } 
+                                    @if (User.IsInRole("Manager"))
+                                    {
+                                        <li><a asp-area="" asp-controller="Staffs" asp-action="AutomobileMakeCount">Automobile Make Count</a></li>
+                                        <li><a asp-area="" asp-controller="Staffs" asp-action="VacantApartmentsList">Vacant Apartments List</a></li>
+                                        <li><a asp-area="" asp-controller="Staffs" asp-action="LeaseLengthList">Lease Length List</a></li>
+                                        <li><a asp-area="" asp-controller="Staffs" asp-action="RentCollected">Rent Collected</a></li>
+                                    }                              
                                 </ul>
                             </li>
                         }
