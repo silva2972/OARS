@@ -1,0 +1,49 @@
+﻿@model IEnumerable<oars.Models.StaffApartmentDetailsVM>
+
+@{
+    ViewData["Title"] = "Testimonials";
+}
+
+<h2>Testimonials</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.fname )
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.lname)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.position)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.apartments)
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.fname)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.lname)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.position)
+                </td>
+                <td>
+                    <ul>@for(int i= 0;i < item.apartments.Count; i++)
+                    {
+                        <li>@Html.DisplayFor(modelItem => item.apartments[i])</li>
+                    }
+                    </ul>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

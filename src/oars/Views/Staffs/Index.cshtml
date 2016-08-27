@@ -10,5 +10,7 @@
 @Html.ActionLink("Enter Complaint", "CreateRentalComplaint", "Complaints", null, new { @class = "btn btn-primary btn-lg btn-block" })
 @if (User.IsInRole("Supervisor"))
 {
-@Html.ActionLink("Pending Complaints", "Index", "Complaints", null, new { @class = "btn btn-primary btn-lg btn-block" })
+    @Html.ActionLink("Pending Complaints", "Index", "Complaints", null, new { @class = "btn btn-primary btn-lg btn-block" })
+    @Html.ActionLink("Staff Rental Summary", "StaffRentalSummary", "Staffs", null, new { @class = "btn btn-primary btn-lg btn-block" })
+    @Html.ActionLink("Staff Apartment Details", "StaffApartmentDetails", "Staffs", null, new { @class = "btn btn-primary btn-lg btn-block" })
 }

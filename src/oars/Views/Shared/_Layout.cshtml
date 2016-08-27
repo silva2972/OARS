@@ -64,7 +64,9 @@
                                     <li><a asp-area="" asp-controller="Staffs" asp-action="PaymentList">Payment List</a></li>
                                     <li><a asp-area="" asp-controller="Complaints" asp-action="CreateRentalComplaint">Enter Complaint</a></li>
                                     @if(User.IsInRole("Supervisor")){
-                                    <li><a asp-area="" asp-controller="Complaints" asp-action="Index">Pending Complaints</a></li> 
+                                    <li><a asp-area="" asp-controller="Complaints" asp-action="Index">Pending Complaints</a></li>
+                                    <li><a asp-area="" asp-controller="Staffs" asp-action="StaffRentalSummary">Staff Rental Summary</a></li>
+                                    <li><a asp-area="" asp-controller="Staffs" asp-action="StaffApartmentDetails">Staff Apartment Details</a></li>
                                     }                             
                                 </ul>
                             </li>

@@ -9,6 +9,7 @@ using oars.Models.DB;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using oars.Models;
+using Microsoft.AspNetCore.Identity;
 
 namespace oars.Controllers
 {
@@ -16,9 +17,10 @@ namespace oars.Controllers
     public class StaffsController : Controller
     {
         private readonly OARSContext _context;
-
-        public StaffsController(OARSContext context)
+        private readonly UserManager<ApplicationUser> _userManager;
+        public StaffsController(UserManager<ApplicationUser> userManager, OARSContext context)
         {
+            _userManager = userManager;
             _context = context;    
         }
 
@@ -65,6 +67,41 @@ namespace oars.Controllers
             }
             ViewBag.Error = "Invalid Rental Number";
             return View();
+        }
+        [Authorize(Roles ="Supervisor")]
+        public async Task<IActionResult> StaffRentalSummary()
+        {
+            var model = await _context.Staff.Select(s => new StaffRentalSummaryVM
+            {
+                fname = s.Fname,
+                lname = s.Lname,
+                username = s.Username,
+                rental_nos = _context.Rental.Count(r => r.StaffNo == s.StaffNo)
+            }).ToListAsync();
+            for(var i =0; i< model.Count; i++)
+            {
+                var user = await _userManager.FindByEmailAsync(model[i].username);
+                var pos = await _userManager.GetRolesAsync(await _userManager.FindByEmailAsync(model[i].username));
+                model[i].position = pos[0];
+            }
+            return View(model);
+        }
+        public async Task<IActionResult> StaffApartmentDetails()
+        {
+            var model = await _context.Staff.Select(s => new StaffApartmentDetailsVM
+            {
+                fname = s.Fname,
+                lname = s.Lname,
+                username = s.Username,
+                apartments = _context.Rental.Where(r=>r.StaffNo==s.StaffNo).Select(r=>r.AptNo).ToList()
+            }).ToListAsync();
+            for (var i = 0; i < model.Count; i++)
+            {
+                var user = await _userManager.FindByEmailAsync(model[i].username);
+                var pos = await _userManager.GetRolesAsync(await _userManager.FindByEmailAsync(model[i].username));
+                model[i].position = pos[0];
+            }
+            return View(model);
         }
     }
 }
