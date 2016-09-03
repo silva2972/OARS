@@ -1,0 +1,16 @@
+﻿@model oars.Models.RentalConfirmationVM
+
+@{
+    ViewData["Title"] = "Rental Confirmation";
+}
+
+<h2 align="center">Rental Confirmation Details</h2>
+<hr />
+@if (Model != null)
+{
+    <p>@Html.DisplayNameFor(model =>model.rentalNo): @Html.DisplayFor(model => model.rentalNo)</p>
+    <p>@Html.DisplayNameFor(model => model.rentalDate): @Html.DisplayFor(model => model.rentalDate)</p>
+    <p>@Html.DisplayNameFor(model => model.rentalDeposit): @Html.DisplayFor(model => model.rentalDeposit)</p>
+}
+<hr />
+<h3 align="center">Please pay rental deposit immediately. Thank you!</h3>

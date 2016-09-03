@@ -1,0 +1,127 @@
+﻿@model oars.Models.CreateRentalVM
+
+@{
+    ViewData["Title"] = "CreateRental";
+}
+
+<h2>Create Rental: Enter Tenant Information</h2>
+
+<form asp-antiforgery="true" asp-action="CreateRental" method="post">
+    <div class="form-horizontal">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="form-group">
+            <label asp-for="ssn" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="ssn" class="form-control"/>
+                <span asp-validation-for="ssn" class="text-danger" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="name" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="name" class="form-control"/>
+                <span asp-validation-for="name" class="text-danger" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="dob" class="col-md-2 control-label"></label>
+            <div class="col-md-10" id="datepicker">
+                <input asp-for="dob" class="form-control" type="text" />
+                <span asp-validation-for="dob" class="text-danger" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="gender" class="col-md-2 control-label"></label>
+            <div>
+                <label asp-for="gender" class="radio-inline">
+                    <input asp-for="gender" value="M" type="radio" />Male
+                </label>
+                <label asp-for="gender" class="radio-inline">
+                    <input asp-for="gender" value="F" type="radio" />Female
+                </label>
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="marital" class="col-md-2 control-label"></label>
+            <div>
+                <label asp-for="marital" class="radio-inline">
+                    <input asp-for="marital" value="Y" type="radio" />Married
+                </label>
+                <label asp-for="marital" class="radio-inline">
+                    <input asp-for="marital" value="N" type="radio" />Single
+                </label>
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="homePhone" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="homePhone" class="form-control" />
+                <span asp-validation-for="homePhone" class="text-danger" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="employerName" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="employerName" class="form-control" />
+                <span asp-validation-for="employerName" class="text-danger" />
+            </div>
+        </div>      
+        <div class="form-group">
+            <label asp-for="workPhone" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="workPhone" class="form-control" />
+                <span asp-validation-for="workPhone" class="text-danger" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="lease_type" class="col-md-2 control-label"></label>
+            <div>
+                <label asp-for="lease_type" class="radio-inline">
+                    <input asp-for="lease_type" value="six" type="radio" />6 Months
+                </label>
+                <label asp-for="lease_type" class="radio-inline">
+                    <input asp-for="lease_type" value="one" type="radio" />1 Year
+                </label>
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="apt_no" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="apt_no" class="form-control" value =@ViewBag.apt_no readonly/>
+                <span asp-validation-for="apt_no" class="text-danger" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="apt_type" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="apt_type" class="form-control" value =@ViewBag.apt_type readonly/>
+                <span asp-validation-for="apt_type" class="text-danger" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="deposit" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="deposit" class="form-control" value =@ViewBag.deposit readonly/>
+                <span asp-validation-for="deposit" class="text-danger" />
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Submit" class="btn btn-default" />
+                <input type="reset" value="Clear" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+</form>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script type="text/javascript" src="~/lib/jquery-ui/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="~/lib/bootstrap-datepicker/js/bootstrap-datepicker.js"></script>
+    <script type="text/javascript">
+        $('#datepicker input').datepicker({
+            });
+
+    </script>
+
+}

@@ -13,8 +13,10 @@ namespace oars.Models
         [Display(Name = "Apartment Type")]
         public byte apt_type { get; set; }
         [Display(Name = "Deposit")]
+        [DataType(DataType.Currency)]
         public int deposit { get; set; }
         [Display(Name = "Rent")]
+        //[DataType(DataType.Currency)]
         public decimal rent { get; set; }  
     }
 }

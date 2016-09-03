@@ -1,0 +1,89 @@
+﻿@model IEnumerable<oars.Models.VacantApartmentsListVM>
+
+    @{
+        ViewData["Title"] = "Available Apartments";
+    }
+
+<h2>Create Rental: Choose An Apartment </h2>
+<div class="col-md-8">
+    <form asp-action="AvailableApartments">
+        <table class="table">
+            <thead class="thead-inverse">
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.apt_no)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.apt_type)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.deposit)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.rent)
+                    </th>
+                </tr>
+            </thead>
+
+            <tbody>
+
+                @foreach (var item in Model) { 
+                    <tr>
+                        <td>
+                            <input value=@item.apt_no type="radio" name="apt_no" class="radio-inline" required/>  @Html.DisplayFor(modelItem => item.apt_no)
+                        </td>
+                        @if (item.apt_type == 0)
+                        {<td>studio</td>}
+                        else if (item.apt_type == 1)
+                        {<td>one bedroom</td>}
+                        else if (item.apt_type == 2)
+                        {<td>two bedroom</td>}
+                        else
+                        {<td>three bedroom</td>}
+                        <td>
+                            @Html.DisplayFor(modelItem => item.deposit)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.rent)
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Submit" class="btn btn-default" />
+                <input type="reset" value="Clear" class="btn btn-default" />
+            </div>
+        </div>
+    </form>
+</div>
+<div class="col-md-4">
+    <hr>
+    <table class="table">
+        <thead class="thead-inverse">
+            <tr>
+                <th>Apartment</th>
+                <th>Rental Rates</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Studio</td>
+                <td>$300</td>
+            </tr>
+            <tr>
+                <td>1 Bedroom</td>
+                <td>$400</td>
+            </tr>
+            <tr>
+                <td>2 Bedroom</td>
+                <td>$500</td>
+            </tr>
+            <tr>
+                <td>3 Bedroom</td>
+                <td>$700</td>
+            </tr>
+        </tbody>
+    </table>
+</div>

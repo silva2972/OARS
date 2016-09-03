@@ -74,7 +74,11 @@
                                         <li><a asp-area="" asp-controller="Staffs" asp-action="VacantApartmentsList">Vacant Apartments List</a></li>
                                         <li><a asp-area="" asp-controller="Staffs" asp-action="LeaseLengthList">Lease Length List</a></li>
                                         <li><a asp-area="" asp-controller="Staffs" asp-action="RentCollected">Rent Collected</a></li>
-                                    }                              
+                                    }   
+                                    @if (User.IsInRole("Assistant"))
+                                    {
+                                        <li><a asp-area="" asp-controller="Staffs" asp-action="AvailableApartments">New Rental</a></li>
+                                    }
                                 </ul>
                             </li>
                         }
