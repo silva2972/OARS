@@ -48,3 +48,43 @@ textarea {
     display: none
   }
 }
+
+#home-main-img{
+    background-image:url(../images/expensive-building.jpg);
+    background-position: center top;
+    -webkit-filter: grayscale(50%);
+    padding: 70px 80px 240px 80px;
+}
+
+#home-text{
+    padding:20px;
+    background: rgb(34,34,34);
+    background: rgba(34,34,34,0.75);
+}
+#home-text h2, #home-text h5{
+    text-align: left center;
+    color:white;
+    font-family:Georgia, 'Times New Roman', Times, serif;
+}
+#home-text h2 {
+    font:bold;
+    font-size:60px;
+}
+#home-text h5 {
+    font:bold;
+    font-size:24px;
+}
+.profile-img{
+    max-width: 100%;
+    height: auto;
+}
+.profile-img img{
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+.profile-img .profile-text{
+    font-family:'Times New Roman', Times, serif;
+    text-align:center;
+}
+
